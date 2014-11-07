@@ -1,2 +1,4 @@
 Django==1.7
 psycopg2
+requests
+beautifulsoup4
