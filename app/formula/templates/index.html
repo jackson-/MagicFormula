@@ -4,9 +4,13 @@
 	<title>Magic Formula</title>
 </head>
 <body>
-<div class="output">
-	{% if output %}
-		{{output}}
+<div class="form">
+	{% if form %}
+	<form action='/magic/' method='POST'>
+	{{form.as_p}}
+	{% csrf_token %}
+	<input type="submit">
+	</form>
 	{% endif %}
 </div>
 </body>

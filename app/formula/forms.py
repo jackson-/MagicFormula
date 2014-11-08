@@ -2,6 +2,6 @@ from django import forms
 
 
 class FormulaForm(forms.Form):
-	min_market_cap = forms.IntegerField()
+	symbols = forms.CharField()
 	stock_quantity = forms.IntegerField()
 	
