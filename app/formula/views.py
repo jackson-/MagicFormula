@@ -26,6 +26,6 @@ class MagicView(View):
 			url = r.get("http://www.gurufocus.com/term/ROC_JOEL/" + value + "/Return%252Bon%252BCapital%252B%252B-%252BJoel%252BGreenblatt/")
 			soup = bs4(url.text)
 			for div in soup.select('.data_value'):
-				roc.append(div.get_text())
-		print(self.output)
+				roc.append(div.get_text()[:-18])
+		print(roc)
 		return HttpResponse('test')
