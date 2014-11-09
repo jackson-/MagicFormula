@@ -24,23 +24,22 @@ class MagicView(View):
 		for value in range(len(symbols)):
 			symbols[value] = symbols[value].strip()
 		roc = []
+		pe_ratio = []
 		for value in symbols:
 			value = value.upper()
 			# result = r.get(self.lookup_url + value).json()
-			url = r.get("http://174.129.18.141/companies/GOOG/pe_ratio")
+			url = r.get("http://174.129.18.141/companies/" + value + "/pe_ratio")
 			soup = bs4(url.text)
 			pe_text = soup.select('span#pgNameVal')
 			pe_text = pe_text[0].text
 			pe_text = re.split('\s+', pe_text)
 			for i in range(1):
-				pe_ratio = pe_text[i]
-				print(pe_ratio)
-			# for div in soup.select('.Es'):
-			# 	print(div.get_text())
-			# url = r.get("http://www.gurufocus.com/term/ROC_JOEL/" + value + "/Return%252Bon%252BCapital%252B%252B-%252BJoel%252BGreenblatt/")
-			# soup = bs4(url.text)
-			# for div in soup.select('.data_value'):
-			# 	roc.append(div.get_text()[:-18])
-
-		url = "http://www.wikinvest.com/stock/Symantec_(SYMC)/Data/P:E"
+				pe_ratio.append(pe_text[i])
+			url = r.get("http://www.gurufocus.com/term/ROC_JOEL/" + value + "/Return%252Bon%252BCapital%252B%252B-%252BJoel%252BGreenblatt/")
+			soup = bs4(url.text)
+			for div in soup.select('.data_value'):
+				roc.append(div.get_text()[:-18])
+		print(pe_ratio)
+		print(roc)
+		print(symbols)
 		return HttpResponse('test')
