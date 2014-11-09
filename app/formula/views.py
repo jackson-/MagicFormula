@@ -29,11 +29,12 @@ class MagicView(View):
 			# result = r.get(self.lookup_url + value).json()
 			url = r.get("http://174.129.18.141/companies/GOOG/pe_ratio")
 			soup = bs4(url.text)
-			thing = soup.select('span#pgNameVal')
-			thing = thing[0].text
-			thing = re.split('\s+', thing)
-
-			print(thing[:1])
+			pe_text = soup.select('span#pgNameVal')
+			pe_text = pe_text[0].text
+			pe_text = re.split('\s+', pe_text)
+			for i in range(1):
+				pe_ratio = pe_text[i]
+				print(pe_ratio)
 			# for div in soup.select('.Es'):
 			# 	print(div.get_text())
 			# url = r.get("http://www.gurufocus.com/term/ROC_JOEL/" + value + "/Return%252Bon%252BCapital%252B%252B-%252BJoel%252BGreenblatt/")
