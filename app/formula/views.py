@@ -39,7 +39,4 @@ class MagicView(View):
 			soup = bs4(url.text)
 			for div in soup.select('.data_value'):
 				roc.append(div.get_text()[:-18])
-		print(pe_ratio)
-		print(roc)
-		print(symbols)
 		return HttpResponse('test')
