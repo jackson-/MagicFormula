@@ -44,5 +44,5 @@ class MagicView(View):
 		for value in symbols:
 			counter+=1
 			magic_dict[value] = {"magic number":roc[counter]-pe_ratio[counter]}
-		# print(magic_dict.items)
+		print(magic_dict)
 		return JsonResponse({'magic_dict':magic_dict})
