@@ -34,9 +34,15 @@ class MagicView(View):
 			pe_text = pe_text[0].text
 			pe_text = re.split('\s+', pe_text)
 			for i in range(1):
-				pe_ratio.append(pe_text[i])
+				pe_ratio.append(float(pe_text[i]))
 			url = r.get("http://www.gurufocus.com/term/ROC_JOEL/" + value + "/Return%252Bon%252BCapital%252B%252B-%252BJoel%252BGreenblatt/")
 			soup = bs4(url.text)
 			for div in soup.select('.data_value'):
-				roc.append(div.get_text()[:-18])
-		return HttpResponse('test')
+				roc.append(float(div.get_text()[:-19]))
+		magic_dict = {}
+		counter = -1
+		for value in symbols:
+			counter+=1
+			magic_dict[value] = {"magic number":roc[counter]-pe_ratio[counter]}
+		# print(magic_dict.items)
+		return JsonResponse({'magic_dict':magic_dict})
