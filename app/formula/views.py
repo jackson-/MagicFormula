@@ -3,7 +3,7 @@ from django.views.generic import View
 from bs4 import BeautifulSoup as bs4
 import requests as r
 from formula.forms import FormulaForm
-from formula.models import Symbols
+from formula.models import Symbols, Entry, History
 from django.http import HttpResponse, JsonResponse
 import json
 import re
@@ -27,10 +27,14 @@ class MagicView(View):
 	quote_url = "http://dev.markitondemand.com/Api/v2/Quote/json?symbol="
 
 	def post(self, request):
+		Entry.objects.create()
+		entry = Entry.objects.last()
 		symbols = request.POST['ticker'].split(',')
-		for value in range(len(symbols)):
-			symbols[value] = symbols[value].strip()
-			Symbols.objects.create(ticker=symbols[value])
+		for symbol in range(len(symbols)):
+			symbols[symbol] = symbols[symbol].strip()
+			Symbols.objects.create(ticker=symbols[symbol])
+			sym = Symbols.objects.last()
+			History.objects.create(entry_id=entry, sym_id=sym, magic_number=0, market_cap=0)
 		roc = []
 		pe_ratio = []
 		cap_list = []
@@ -72,11 +76,11 @@ class TableView(View):
 	def get(self, request, entry_id=None):
 		hist_id = request.path[7:-1]
 		info = Symbols.objects.get(id=hist_id)
-		symbols = info.symbols.split('')
+		symbols = info.ticker
 		for value in symbols:
 			print(value)
 			value = value.strip()
-		Symbols.objects.create(symbols=symbols)
+		Symbols.objects.create(ticker=symbols)
 		roc = []
 		pe_ratio = []
 		cap_list = []
