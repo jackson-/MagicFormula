@@ -1,14 +1,5 @@
-{%load staticfiles%}
-<!DOCTYPE html>
-<html>
-<head>
-	<title>Magic Formula</title>
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-	 <script src="{%static "formula/django_ajax.js"%}"></script>
-	<script src="{%static "formula/app.js"%}"></script>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css">
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
 <div class="form">
 	{% if form %}
 	<form action='/magic/' method='POST'>
@@ -37,7 +28,12 @@
 		{% endfor %}
 	</table>
 	{% endif %}
-
+	{% if history %}
+		<ul>
+		{% for entry in history %}
+			<a href="/table/{{entry.id}}/"><li>{{entry.ticker}}</li></a>
+		{% endfor %}
+		</ul>
+	{% endif %}
 </div>
-</body>
-</html>
+{% endblock %}
