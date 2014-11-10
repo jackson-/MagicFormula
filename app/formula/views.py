@@ -3,6 +3,7 @@ from django.views.generic import View
 from bs4 import BeautifulSoup as bs4
 import requests as r
 from formula.forms import FormulaForm
+from formula.models import QueryHistory
 from django.http import HttpResponse, JsonResponse
 import json
 import re
@@ -16,6 +17,8 @@ class IndexView(View):
 		return render(request, self.template_name, {'form':self.form_class})
 
 class MagicView(View):
+	template_name = 'index.html'
+	form_class = FormulaForm
 	lookup_url = "http://dev.markitondemand.com/Api/v2/Lookup/json?input="
 	quote_url = "http://dev.markitondemand.com/Api/v2/Quote/json?symbol="
 
@@ -23,6 +26,7 @@ class MagicView(View):
 		symbols = request.POST['symbols'].split(',')
 		for value in range(len(symbols)):
 			symbols[value] = symbols[value].strip()
+		QueryHistory.objects.create(symbols=symbols)
 		roc = []
 		pe_ratio = []
 		for value in symbols:
@@ -45,4 +49,4 @@ class MagicView(View):
 			counter+=1
 			magic_dict[value] = {"magic number":roc[counter]-pe_ratio[counter]}
 		print(magic_dict)
-		return JsonResponse({'magic_dict':magic_dict})
+		return render(request, self.template_name, {'magic_dict':magic_dict, 'form':self.form_class})
