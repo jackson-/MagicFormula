@@ -29,6 +29,7 @@ class MagicView(View):
 		QueryHistory.objects.create(symbols=symbols)
 		roc = []
 		pe_ratio = []
+		cap_list = []
 		for value in symbols:
 			value = value.upper()
 			# result = r.get(self.lookup_url + value).json()
@@ -43,11 +44,18 @@ class MagicView(View):
 			soup = bs4(url.text)
 			for div in soup.select('.data_value'):
 				roc.append(float(div.get_text()[:-19]))
+			value = value.lower()
+			url = r.get("http://finance.yahoo.com/q/ks?s="+ value +"+Key+Statistics")
+			soup = bs4(url.text)
+			cap_array = soup.select("#yfs_j10_"+value)
+			for i in cap_array:
+				thing = i.text
+				cap_list.append(thing)
 		magic_dict = {}
 		counter = -1
 		for value in symbols:
 			counter+=1
-			magic_dict[value] = roc[counter]-pe_ratio[counter]
+			magic_dict[value] = {'magic_number': roc[counter]-pe_ratio[counter], 'market_cap': cap_list[counter]}
+
 		print(magic_dict)
 		return render(request, self.template_name, {'magic_dict':magic_dict, 'form':self.form_class})
-		# return render(request, self.template_name, {'this':'isgood', 'form':self.form_class})

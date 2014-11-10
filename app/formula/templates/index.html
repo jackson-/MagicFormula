@@ -21,10 +21,18 @@
 <div class="output">
 	{% if magic_dict %}
 	<table class="table">
+		<tr>
+			<th>company name</th>
+			<th>magic number</th>
+			<th>market cap</th>
+			<th>ratios</th>
+		</tr>
 		{% for key, value in magic_dict.items %}
 		<tr>
-		<th>{{key}}</th>
-		<td>{{value}}</td>
+		<td>{{key}}</td>
+		<td>{{value.magic_number}}</td>
+		<td>{{value.market_cap}}</td>
+		<td><button><a href="http://www.nasdaq.com/symbol/{{key}}/financials?query=ratios">{{key}} ratios</a></button></td>
 		</tr>
 		{% endfor %}
 	</table>
