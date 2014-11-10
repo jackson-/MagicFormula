@@ -47,6 +47,7 @@ class MagicView(View):
 		counter = -1
 		for value in symbols:
 			counter+=1
-			magic_dict[value] = {"magic number":roc[counter]-pe_ratio[counter]}
+			magic_dict[value] = roc[counter]-pe_ratio[counter]
 		print(magic_dict)
 		return render(request, self.template_name, {'magic_dict':magic_dict, 'form':self.form_class})
+		# return render(request, self.template_name, {'this':'isgood', 'form':self.form_class})
